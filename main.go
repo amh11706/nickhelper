@@ -143,7 +143,7 @@ func sendNameUpdate(name string) {
 		log.Println(err)
 		return
 	}
-	res, err := http.Post("https://dev.superquacken.com/discordnick", "text/plain", bytes.NewReader(reqBytes))
+	res, err := http.Post("https://superquacken.com/discordnick", "text/plain", bytes.NewReader(reqBytes))
 	if err != nil {
 		log.Println(err)
 		return
