@@ -49,10 +49,13 @@ func main() {
 				log.Fatal(err)
 			}
 			lines := strings.Split(string(bytes), "\n")
-			for _, line := range lines {
+			// read lines backwards so we find the most recent one first
+			for i := len(lines) - 1; i >= 0; i-- {
+				line := lines[i]
 				match := regexp.MustCompile(`^\[[\d:]+] Going aboard the (.*)\.\.\.`).FindStringSubmatch(line)
 				if len(match) > 0 {
 					sendNameUpdate(conf.NamePrefix + match[1])
+					break
 				}
 			}
 		}

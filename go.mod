@@ -1,4 +1,4 @@
-module github.com/amh11706/chatscan
+module github.com/amh11706/nickhelper
 
 go 1.19
 
