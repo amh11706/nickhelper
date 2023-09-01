@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"math"
@@ -12,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/fatih/color"
 	"github.com/manifoldco/promptui"
 )
 
@@ -93,18 +95,23 @@ func promptConfig() {
 		Label: "Discord Key",
 	}
 	var err error
-	conf.DiscordKey, err = keyPrompt.Run()
-	if err != nil {
-		log.Fatal(err)
-	}
-	if len(conf.DiscordKey) != 36 {
-		log.Fatal("Invalid key: Must be a UUID.")
+	for conf.DiscordKey == "" {
+		color.Yellow("Ask Imaduck for a discord key linked to your account.")
+		conf.DiscordKey, err = keyPrompt.Run()
+		if err != nil {
+			log.Fatal(err)
+		}
+		if len(conf.DiscordKey) != 36 {
+			fmt.Println("Invalid key: Must be a UUID.")
+			conf.DiscordKey = ""
+		}
 	}
 
 	filePrompt := promptui.Prompt{
 		Label: "File to watch",
 	}
 	for conf.FileToWatch == "" {
+		color.Yellow("Path where your chat log is sent to. Omit the quotes.")
 		conf.FileToWatch, err = filePrompt.Run()
 		if err != nil {
 			log.Fatal(err)
@@ -119,6 +126,7 @@ func promptConfig() {
 	namePrompt := promptui.Prompt{
 		Label: "Name prefix (optional)",
 	}
+	color.Yellow("Prefix to put infront of the boat name. ie: 'ds - ' for 'ds - The Halibut'")
 	conf.NamePrefix, err = namePrompt.Run()
 	if err != nil {
 		log.Fatal(err)
